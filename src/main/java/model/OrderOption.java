@@ -1,0 +1,28 @@
+package model;
+
+
+import lombok.Builder;
+import lombok.Data;
+
+// 주문된 옵션들 - 바지(XL) 등 ..
+@Data
+public class OrderOption {
+    private int id;
+    private String optionName; // 하얀티
+    private int qty; // 5개
+    private int totalPrice; // 10000원
+
+    private Product product;
+    private Order order;
+
+    @Builder
+    public OrderOption(int id, String optionName, int qty, int totalPrice, Product product, Order order) {
+        this.id = id;
+        this.optionName = optionName;
+        this.qty = qty;
+        this.totalPrice = totalPrice;
+        this.product = product;
+        this.order = order;
+    }
+
+}
