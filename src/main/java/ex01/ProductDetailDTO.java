@@ -2,33 +2,40 @@ package ex01;
 
 
 import lombok.Data;
+import model.Product;
+import model.ProductOption;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // 2번 문제 : 상품 상세 화면 (p2)
 // Product(p2, p2Options) -> ProductDetail
 @Data
 public class ProductDetailDTO {
-    private int productId;
-    private List<ProductOption> productOptions;
+    private Integer productId;
+    private String productName;
+    List<ProductOptionDTO> options = new ArrayList<>();
 
-    @Data
-    public static class ProductOption {
-        private int optionId;
-        private String optionName;
-        private int qty;
-        private int price;
-
-        public ProductOption(int optionId, String optionName, int qty, int price) {
-            this.optionId = optionId;
-            this.optionName = optionName;
-            this.qty = qty;
-            this.price = price;
+    public ProductDetailDTO(Product p, List<ProductOption> options) {
+        this.productId = p.getId();
+        this.productName = p.getName();
+        for (ProductOption op : options) {
+            this.options.add(new ProductOptionDTO(op));
         }
     }
 
-    public ProductDetailDTO(int productId, List<ProductOption> productOptions) {
-        this.productId = productId;
-        this.productOptions = productOptions;
+    @Data
+    public class ProductOptionDTO {
+        private int optionId;
+        private String optionName;
+        private int optionPrice;
+        private int optionQty;
+
+        public ProductOptionDTO(ProductOption op) {
+            this.optionId = op.getId();
+            this.optionName = op.getName();
+            this.optionPrice = op.getPrice();
+            this.optionQty = op.getQty();
+        }
     }
 }

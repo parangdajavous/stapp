@@ -34,6 +34,7 @@ public class App1 {
         OrderOption orOption1 = new OrderOption(1, "파란바지", 2, 2000, p1, or1);
         OrderOption orOption2 = new OrderOption(2, "빨간바지", 2, 4000, p1, or1);
         OrderOption orOption3 = new OrderOption(3, "하얀티", 5, 10000, p2, or1);
+        List<OrderOption> or1Options = Arrays.asList(orOption1, orOption2, orOption3);
 
         // 구매로 인한 재고 차감 - 일관성 맞추기
         op1.setQty(op1.getQty() - 2);
@@ -46,29 +47,38 @@ public class App1 {
 
         op3.setQty(op3.getQty() - 7); // 여기까지 하나의 트랜잭션 -  구매 & 재고차감
 
+        // Gson 초기화
+        Gson gson = new Gson();
+
         // 1번 문제 : 상품 목록 화면
-        List<ProductDTO> productDTOList = new ArrayList<>();
-        for (Product product : products) {
-            ProductDTO productDTO = new ProductDTO(product);
-            productDTOList.add(productDTO);
+        // 깊은 복사
+        List<ProductDTO> productDTOs = new ArrayList<>();
+        for (Product p : products) {
+            productDTOs.add(new ProductDTO(p));
         }
 
-        Gson gson = new Gson();
-        String json = gson.toJson(productDTOList);
-        System.out.println(json);
+        String ex01 = gson.toJson(productDTOs);
+        System.out.println(ex01);
 
 
         // 2번 문제 : 상품 상세 화면 (p2)
-        // Product(p2, p2Options) -> ProductDetail
+        ProductDetailDTO productDetailDTO = new ProductDetailDTO(p2, p2Options);
+        String ex02 = gson.toJson(productDetailDTO);
+        System.out.println(ex02);
 
 
         // 3번 문제 : 주문 확인 상세 화면 (or2)
         // 틀렸음 : DTO 담기
+        TempDTO tempDTO = new TempDTO(orOption4);
+        String ex03 = gson.toJson(tempDTO);
+        System.out.println(ex03);
 
 
         // 4번 문제 : 주문 확인 상세 화면 (or1)
-        // (orOption1, orOption2), (orOption3) -> OrderDetailDTO
-
+        // p1(orOption1, orOption2), p2(orOption3) -> OrderDetailDTO
+        OrderDetailDTO orderDetailDTO = new OrderDetailDTO(or1Options);
+        String ex04 = gson.toJson(orderDetailDTO);
+        System.out.println(ex04);
 
     }
 
